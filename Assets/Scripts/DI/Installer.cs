@@ -1,22 +1,13 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-public class Installer : MonoBehaviour {
-	
-	private static DIContainer container;
-	
-	
-	
-	void Awake() {		
-		container = new DIContainer();		
-		container.Register<IProfileSelectionView>(GetComponent<ProfileSelectionView>());
-		container.Register<IActiveProfileView>(GetComponent<ActiveProfileView>());
-		container.Register<IGUIManager>(GetComponent<GUIManager>());
-	}
-	
-	
-	public static T GetService<T>() => container.Resolve<T>();
-	private void OnDestroy() {
-		container.Dispose();
+using Zenject;
+
+public class Installer2 : MonoInstaller {
+	public override void InstallBindings() {	
+		Container.Bind<IProfileSelectionView>().FromComponentInHierarchy().AsSingle();
+		Container.Bind<IActiveProfileView>().FromComponentInHierarchy().AsSingle();
+		Container.Bind<IGUIManager>().FromComponentInHierarchy().AsSingle();
+		
 	}
 }

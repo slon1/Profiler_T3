@@ -1,19 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Bootstrap : MonoBehaviour {
 	private IProfileSelectionView selectionView;
 	private IActiveProfileView activeView;
-	private IGUIManager managerGui
-		;
+	private IGUIManager managerGui;
+
+	[Inject]
+	public void Construct (IProfileSelectionView selectionView, IActiveProfileView activeView, IGUIManager managerGui) {
+		this.selectionView = selectionView;
+		this.activeView = activeView;
+		this.managerGui = managerGui;
+	}
 
 	[SerializeField] private ScriptableProfile[] profiles;
 
 
-	private void Start() {
-		selectionView = Installer.GetService<IProfileSelectionView>();
-		activeView = Installer.GetService<IActiveProfileView>();
-		managerGui = Installer.GetService<IGUIManager>();
+	private void Start() {		
 
 		InitProfile();
 	}
